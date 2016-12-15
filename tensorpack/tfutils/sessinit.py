@@ -10,7 +10,7 @@ import numpy as np
 import tensorflow as tf
 import six
 
-from ..utils import logger
+from ..utils import logger, naming
 from .common import get_op_var_name
 from .varmanip import SessionUpdate, get_savename_from_varname, is_training_name
 
@@ -104,7 +104,7 @@ class SaverRestore(SessionInit):
         reader = tf.train.NewCheckpointReader(model_path)
         ckpt_vars = reader.get_variable_to_shape_map().keys()
         for v in ckpt_vars:
-            if v.startswith(PREDICT_TOWER):
+            if v.startswith(naming.PREDICT_TOWER):
                 logger.error("Found {} in checkpoint. But anything from prediction tower shouldn't be saved.".format(v.name))
         return set(ckpt_vars)
 
